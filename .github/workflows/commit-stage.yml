@@ -4,7 +4,7 @@ on: push
 jobs:
   build:
     name: Build and Test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
@@ -16,11 +16,9 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: gradle
+          cache: maven
       - name: Build, unit tests and integration tests
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+        run: mvn clean install -B
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
